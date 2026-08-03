@@ -5,4 +5,54 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/blog.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/case-studies/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/contact.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/building-ai-job-platform-yemen.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/developer-roadmap-arabic.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/case-studies/joobea.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/case-studies/sini-alkhafif.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/case-studies/omni-agent-ai.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/case-studies/developer-roadmap.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

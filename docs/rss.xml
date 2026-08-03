@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel>
+  <title>Majid Al-Sakani — Engineering Blog</title>
+  <link>https://majid-alsakani.github.io/majid-alsakani-portfolio/blog.html</link>
+  <atom:link href="https://majid-alsakani.github.io/majid-alsakani-portfolio/rss.xml" rel="self" type="application/rss+xml" />
+  <description>Articles by Majid Al-Sakani (ماجد السكني) on Python, FastAPI, Django, React and AI systems.</description>
+  <language>en</language>
+  <item>
+    <title>Designing a Bilingual Developer Roadmap (AR/EN) — Majid Al-Sakani</title>
+    <link>https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/developer-roadmap-arabic.html</link>
+    <guid isPermaLink="true">https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/developer-roadmap-arabic.html</guid>
+    <description>Majid Al-Sakani on building an interactive Arabic/English developer roadmap with progress tracking, RTL support and curated free resources.</description>
+    <dc:creator>Majid Al-Sakani</dc:creator>
+    <pubDate>Sat, 30 May 2026 09:00:00 +0000</pubDate>
+  </item>  <item>
+    <title>My Production Stack: FastAPI, Django and React — Majid Al-Sakani</title>
+    <link>https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html</link>
+    <guid isPermaLink="true">https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html</guid>
+    <description>How Majid Al-Sakani (ماجد السكني) chooses between FastAPI and Django, structures React frontends, and ships reliable production systems from Yemen.</description>
+    <dc:creator>Majid Al-Sakani</dc:creator>
+    <pubDate>Wed, 22 Apr 2026 09:00:00 +0000</pubDate>
+  </item>  <item>
+    <title>Building an AI Job Platform for Yemen — by Majid Al-Sakani</title>
+    <link>https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/building-ai-job-platform-yemen.html</link>
+    <guid isPermaLink="true">https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/building-ai-job-platform-yemen.html</guid>
+    <description>Majid Al-Sakani explains how Joobea was engineered: AI CV analysis, smart matching, and a FastAPI + React architecture built for low-bandwidth markets.</description>
+    <dc:creator>Majid Al-Sakani</dc:creator>
+    <pubDate>Wed, 11 Mar 2026 09:00:00 +0000</pubDate>
+  </item>
+</channel></rss>

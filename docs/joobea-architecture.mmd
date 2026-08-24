@@ -1,0 +1,101 @@
+flowchart LR
+    %% Joobea architecture — prepared for the personal portfolio case study
+    subgraph U[Users & Clients]
+        SEEKER[Job Seeker<br/>Profile · CV · Apply]
+        EMPLOYER[Employer<br/>Jobs · Pipeline · Analytics]
+        ADMIN[Admin<br/>Moderation · Operations]
+        WEB[React + TypeScript + TailwindCSS<br/>Responsive Web / PWA · Arabic RTL]
+    end
+
+    subgraph EDGE[Edge & Application Boundary]
+        CDN[Static assets / CDN<br/>image optimization]
+        API[FastAPI REST API<br/>typed request / response models]
+        AUTH[Auth & RBAC<br/>Seeker · Employer · Admin]
+        GUARD[Validation · rate limits<br/>defensive input handling]
+    end
+
+    subgraph DOMAIN[Domain Services]
+        JOBS[Jobs & Search Service<br/>filters · city · contract · salary · skills]
+        PROFILE[Profile & CV Service<br/>structured candidate profiles]
+        APPLY[Applications Service<br/>apply · status · pipeline]
+        COMPANY[Company Workspace<br/>publishing · candidate review]
+        NOTIFY[Alerts & Notifications<br/>saved searches · job updates]
+        MARKET[Freelance · Courses<br/>Mentors · Job Fairs]
+        ANALYTICS[Analytics & Reporting<br/>employer and product signals]
+    end
+
+    subgraph INTEL[AI & Matching Layer]
+        PARSER[Resume Parser<br/>PDF extraction → structured signals]
+        ATS[ATS Scoring<br/>strengths · gaps · missing skills]
+        MATCH[Matching Engine<br/>skills · experience · location]
+        RERANK[Recommendation / re-ranking<br/>candidate ↔ opportunity]
+        REVIEW[Human review boundary<br/>AI recommends · people decide]
+    end
+
+    subgraph DATA[Data & Storage]
+        PG[(PostgreSQL<br/>profiles · jobs · applications<br/>companies · permissions · indexes)]
+        OBJECT[(S3-compatible Object Storage<br/>CVs · company logos · assets<br/>signed access URLs)]
+        CACHE[(Cache / pagination layer<br/>hot feeds · repeated queries)]
+    end
+
+    subgraph DELIVERY[Delivery & Quality]
+        DOCKER[Dockerized services]
+        CI[CI pipeline<br/>lint · tests · reproducible builds]
+        OBS[Logs · errors · operational signals]
+    end
+
+    SEEKER --> WEB
+    EMPLOYER --> WEB
+    ADMIN --> WEB
+    WEB --> CDN
+    WEB --> API
+    API --> AUTH --> GUARD
+    GUARD --> JOBS
+    GUARD --> PROFILE
+    GUARD --> APPLY
+    GUARD --> COMPANY
+    GUARD --> NOTIFY
+    GUARD --> MARKET
+    GUARD --> ANALYTICS
+
+    JOBS --> PG
+    JOBS --> CACHE
+    PROFILE --> PG
+    PROFILE --> OBJECT
+    APPLY --> PG
+    COMPANY --> PG
+    COMPANY --> OBJECT
+    NOTIFY --> PG
+    MARKET --> PG
+    ANALYTICS --> PG
+
+    PROFILE --> PARSER
+    PARSER --> OBJECT
+    PARSER --> ATS
+    ATS --> PROFILE
+    ATS --> PG
+    PROFILE --> MATCH
+    JOBS --> MATCH
+    MATCH --> RERANK
+    RERANK --> PG
+    RERANK --> REVIEW
+    REVIEW --> EMPLOYER
+    REVIEW --> SEEKER
+
+    API -. operational signals .-> OBS
+    API -. shipped through .-> DOCKER
+    DOCKER -. verified by .-> CI
+
+    classDef client fill:#0c1a34,stroke:#2f8cff,color:#eaf2ff
+    classDef edge fill:#111c35,stroke:#7aaeff,color:#eaf2ff
+    classDef domain fill:#14203b,stroke:#25c6a2,color:#eaf2ff
+    classDef ai fill:#21183e,stroke:#a875ff,color:#f4edff
+    classDef data fill:#182437,stroke:#ff8b71,color:#fff2ee
+    classDef delivery fill:#172a2a,stroke:#69d7b4,color:#eafff7
+
+    class SEEKER,EMPLOYER,ADMIN,WEB client
+    class CDN,API,AUTH,GUARD edge
+    class JOBS,PROFILE,APPLY,COMPANY,NOTIFY,MARKET,ANALYTICS domain
+    class PARSER,ATS,MATCH,RERANK,REVIEW ai
+    class PG,OBJECT,CACHE data
+    class DOCKER,CI,OBS delivery

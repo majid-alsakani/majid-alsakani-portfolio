@@ -1,24 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="google-site-verification" content="HIClLcE078yxVCPtmDK58sQ6r2YtCtYg_ggzSwcet84" />
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="HIClLcE078yxVCPtmDK58sQ6r2YtCtYg_ggzSwcet84" name="google-site-verification"/>
 <title>My Production Stack: FastAPI, Django and React — Majid Al-Sakani</title>
-<meta name="description" content="How Majid Al-Sakani (ماجد السكني) chooses between FastAPI and Django, structures React frontends, and ships reliable production systems from Yemen." />
-<meta name="keywords" content="Majid Al-Sakani, FastAPI vs Django, Python production stack, React TypeScript architecture, full stack developer Yemen, ماجد السكني, مطور بايثون" />
-<meta name="author" content="Majid Al-Sakani" />
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
-<link rel="canonical" href="https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html" />
-<link rel="alternate" type="application/rss+xml" title="Majid Al-Sakani — Blog RSS" href="https://majid-alsakani.github.io/majid-alsakani-portfolio/rss.xml" />
-<meta property="og:type" content="article" /><meta property="og:site_name" content="Majid Al-Sakani" />
-<meta property="og:title" content="My Production Stack: FastAPI, Django and React — Majid Al-Sakani" /><meta property="og:description" content="How Majid Al-Sakani (ماجد السكني) chooses between FastAPI and Django, structures React frontends, and ships reliable production systems from Yemen." />
-<meta property="og:url" content="https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html" /><meta property="og:image" content="https://avatars.githubusercontent.com/u/254464568?v=4" />
-<meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="My Production Stack: FastAPI, Django and React — Majid Al-Sakani" />
-<meta name="twitter:description" content="How Majid Al-Sakani (ماجد السكني) chooses between FastAPI and Django, structures React frontends, and ships reliable production systems from Yemen." /><meta name="twitter:image" content="https://avatars.githubusercontent.com/u/254464568?v=4" />
-<link rel="icon" type="image/x-icon" href="/majid-alsakani-portfolio/favicon.ico" />
-<link rel="icon" type="image/png" sizes="48x48" href="/majid-alsakani-portfolio/favicon-48.png" />
-<link rel="icon" type="image/png" sizes="96x96" href="/majid-alsakani-portfolio/favicon-96.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/majid-alsakani-portfolio/apple-touch-icon.png" />
+<meta content="How Majid Al-Sakani (ماجد السكني) chooses between FastAPI and Django, structures React frontends, and ships reliable production systems from Yemen." name="description"/>
+<meta content="Majid Al-Sakani, FastAPI vs Django, Python production stack, React TypeScript architecture, full stack developer Yemen, ماجد السكني, مطور بايثون" name="keywords"/>
+<meta content="Majid Al-Sakani" name="author"/>
+<meta content="index, follow, max-image-preview:large, max-snippet:-1" name="robots"/>
+<link href="https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html" rel="canonical"/>
+<link href="https://majid-alsakani.github.io/majid-alsakani-portfolio/rss.xml" rel="alternate" title="Majid Al-Sakani — Blog RSS" type="application/rss+xml"/>
+<meta content="article" property="og:type"/><meta content="Majid Al-Sakani" property="og:site_name"/>
+<meta content="My Production Stack: FastAPI, Django and React — Majid Al-Sakani" property="og:title"/><meta content="How Majid Al-Sakani (ماجد السكني) chooses between FastAPI and Django, structures React frontends, and ships reliable production systems from Yemen." property="og:description"/>
+<meta content="https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html" property="og:url"/><meta content="https://avatars.githubusercontent.com/u/254464568?v=4" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/><meta content="My Production Stack: FastAPI, Django and React — Majid Al-Sakani" name="twitter:title"/>
+<meta content="How Majid Al-Sakani (ماجد السكني) chooses between FastAPI and Django, structures React frontends, and ships reliable production systems from Yemen." name="twitter:description"/><meta content="https://avatars.githubusercontent.com/u/254464568?v=4" name="twitter:image"/>
+<link href="/majid-alsakani-portfolio/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/majid-alsakani-portfolio/favicon-48.png" rel="icon" sizes="48x48" type="image/png"/>
+<link href="/majid-alsakani-portfolio/favicon-96.png" rel="icon" sizes="96x96" type="image/png"/>
+<link href="/majid-alsakani-portfolio/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
 <style>
 :root{--bg:#0b1020;--card:#131a30;--txt:#e8ecf8;--mut:#9aa6c4;--acc:#4f8cff;--line:#222c4a}
 html[data-theme="light"]{--bg:#f6f8fc;--card:#fff;--txt:#101423;--mut:#5a6480;--acc:#2563eb;--line:#e3e8f2}
@@ -47,11 +48,11 @@ footer{margin-top:56px;border-top:1px solid var(--line);padding-top:16px;color:v
 blockquote{border-inline-start:3px solid var(--acc);margin:16px 0;padding:4px 14px;color:var(--mut)}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "My Production Stack: FastAPI, Django and React — Majid Al-Sakani", "description": "How Majid Al-Sakani (ماجد السكني) chooses between FastAPI and Django, structures React frontends, and ships reliable production systems from Yemen.", "author": {"@type": "Person", "name": "Majid Al-Sakani", "url": "https://majid-alsakani.github.io/majid-alsakani-portfolio/"}, "publisher": {"@type": "Person", "name": "Majid Al-Sakani"}, "datePublished": "2026-04-22", "dateModified": "2026-08-03", "inLanguage": "en", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html"}, "image": "https://avatars.githubusercontent.com/u/254464568?v=4"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Majid Al-Sakani", "alternateName": ["ماجد السكني", "majid-alsakani"], "jobTitle": "Full Stack Developer", "url": "https://majid-alsakani.github.io/majid-alsakani-portfolio/", "image": "https://avatars.githubusercontent.com/u/254464568?v=4", "address": {"@type": "PostalAddress", "addressCountry": "YE", "addressLocality": "Yemen"}, "knowsAbout": ["Python", "FastAPI", "Django", "React", "TypeScript", "PostgreSQL", "Docker", "Artificial Intelligence", "System Architecture"], "sameAs": ["https://github.com/majid-alsakani", "https://majid-alsakani.github.io/majid-alsakani/", "https://majid-alsakani.github.io/developer-roadmap/", "https://joobea.com", "https://sinialkhafifapp.com"]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://majid-alsakani.github.io/majid-alsakani-portfolio/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://majid-alsakani.github.io/majid-alsakani-portfolio/blog.html"}, {"@type": "ListItem", "position": 3, "name": "My Production Stack: FastAPI, Django and React", "item": "https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html"}]}</script>
-<link rel="stylesheet" href="/majid-alsakani-portfolio/assets/css/site-v1.css" />
+<link href="/majid-alsakani-portfolio/assets/css/site-v1.css" rel="stylesheet"/>
 </head><body><div class="wrap"><nav>
 <div class="links">
 <a href="https://majid-alsakani.github.io/majid-alsakani-portfolio/">Home</a><a href="https://majid-alsakani.github.io/majid-alsakani-portfolio/blog.html">Blog</a><a href="https://majid-alsakani.github.io/majid-alsakani-portfolio/case-studies/">Case Studies</a><a href="https://majid-alsakani.github.io/majid-alsakani-portfolio/contact.html">Contact</a><a href="https://github.com/majid-alsakani">GitHub</a>
-</div><button id="theme">🌙 / ☀️</button></nav>
+</div><button id="theme">🌙 / ☀️</button><a aria-label="العربية" class="v1-language-link" href="/majid-alsakani-portfolio/ar/">العربية</a></nav>
 <h1>My Production Stack: FastAPI, Django and React</h1>
 <p class="meta">By <strong>Majid Al-Sakani</strong> (ماجد السكني) · Updated 2026-08-03</p>
 <p>People ask me which Python framework to pick. My answer as a full stack developer who ships and maintains production systems: pick by the shape of the problem, not by benchmarks.</p>

@@ -61,7 +61,8 @@ button { font: inherit; }
 .v1-shell { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; position: relative; z-index: 1; }
 .v1-topbar { min-height: 92px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); }
 .v1-brand { display: inline-flex; align-items: center; gap: 12px; direction: rtl; }
-.v1-brand-mark { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid rgba(255,139,113,.65); color: var(--coral); font-weight: 800; font-size: 20px; border-radius: 12px; background: linear-gradient(145deg, rgba(255,139,113,.18), rgba(47,140,255,.12)); box-shadow: inset 0 0 18px rgba(255,139,113,.10); }
+.v1-brand-mark { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid rgba(255,139,113,.65); color: var(--coral); font-weight: 800; font-size: 20px; border-radius: 12px; background: linear-gradient(145deg, rgba(255,139,113,.18), rgba(47,140,255,.12)); box-shadow: inset 0 0 18px rgba(255,139,113,.10); overflow: hidden; }
+.v1-brand-mark img { width: 34px; height: 34px; object-fit: contain; display: block; }
 .v1-brand-copy { display: grid; line-height: 1.15; text-align: right; }
 .v1-brand-name { font-weight: 850; font-size: 18px; letter-spacing: -.02em; }
 .v1-brand-role { color: var(--muted); font-size: 11px; margin-top: 4px; }
@@ -72,6 +73,8 @@ button { font: inherit; }
 .v1-controls { display: flex; align-items: center; gap: 8px; }
 .v1-control { display: inline-flex; align-items: center; justify-content: center; min-width: 42px; height: 38px; padding: 0 11px; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); background: rgba(16,27,50,.55); cursor: pointer; transition: .2s ease; }
 .v1-control:hover { border-color: var(--blue); color: var(--text); transform: translateY(-1px); }
+.v1-language-link { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); font-size: 12px; font-weight: 750; background: rgba(16,27,50,.55); transition: .2s ease; }
+.v1-language-link:hover { border-color: var(--blue); color: var(--text); transform: translateY(-1px); text-decoration: none; }
 .v1-hero { min-height: 570px; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 8vw, 130px); align-items: center; padding: 76px 0 52px; position: relative; }
 .v1-hero::after { content: ""; position: absolute; width: 520px; height: 280px; left: 20%; top: 20%; background: radial-gradient(ellipse, rgba(24,105,232,.16), transparent 68%); filter: blur(30px); pointer-events: none; }
 [dir="rtl"] .v1-hero { grid-template-columns: 1fr 1fr; }
@@ -116,7 +119,14 @@ button { font: inherit; }
 .v1-project-type { margin: 3px 0 0; color: var(--muted); font-size: 12px; }
 .v1-project-index { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px; background: var(--panel-soft); color: var(--muted); font-weight: 800; }
 .v1-project-preview { min-height: 230px; border: 1px solid var(--line); border-radius: 13px; background: #0b1427; overflow: hidden; position: relative; }
+.v1-project-photo { display: block; width: 100%; height: 230px; object-fit: cover; object-position: center 24%; transition: transform .35s ease, filter .35s ease; }
+.v1-project:hover .v1-project-photo { transform: scale(1.035); filter: saturate(1.08); }
+.v1-project-photo.sini { object-position: center 16%; }
+.v1-project-photo.roadmap { object-position: center; }
+.v1-project-photo.omni { object-position: center 24%; }
 .v1-project-description { color: var(--muted); font-size: 13px; margin: 14px 8px; line-height: 1.75; }
+.v1-project-image-caption { display: flex; align-items: center; gap: 7px; color: var(--muted-2); font-size: 10px; margin: 8px 8px 0; }
+.v1-project-image-caption::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--mint); }
 .v1-project-link { margin: auto 8px 6px; display: inline-flex; align-items: center; justify-content: space-between; color: var(--blue); font-weight: 750; font-size: 13px; }
 .v1-project-link span:last-child { font-size: 20px; transition: transform .2s ease; }
 .v1-project:hover .v1-project-link span:last-child { transform: translateX(-5px); }

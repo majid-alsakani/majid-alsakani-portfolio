@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="Developer Roadmap">
+<defs>
+<linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#0b1220"/><stop offset="55%" stop-color="#12213f"/><stop offset="100%" stop-color="#1f6feb"/>
+</linearGradient>
+<linearGradient id="t" x1="0" y1="0" x2="1" y2="0">
+<stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#9fd0ff"/>
+</linearGradient>
+</defs>
+<rect width="1200" height="300" fill="url(#g)"/>
+<g opacity="0.20" stroke="#7ee7ff" stroke-width="2" fill="none">
+<path d="M60 240 C 240 240, 240 90, 420 90 S 600 240, 780 240 S 960 90, 1140 90"/>
+<path d="M60 180 C 260 180, 260 60, 460 60 S 660 180, 860 180 S 1040 60, 1140 60"/>
+</g>
+<g fill="#7ee7ff">
+<circle cx="60" cy="240" r="9"/><circle cx="420" cy="90" r="9"/><circle cx="780" cy="240" r="9"/><circle cx="1140" cy="90" r="9"/>
+</g>
+<text x="600" y="130" text-anchor="middle" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="58" font-weight="700" fill="url(#t)">Developer Roadmap</text>
+<text x="600" y="180" text-anchor="middle" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="30" fill="#c9d7ee">خارطة طريق المطوّر · Bilingual EN / AR</text>
+<text x="600" y="226" text-anchor="middle" font-family="Segoe UI,Helvetica,Arial,sans-serif" font-size="19" fill="#8fa6c6">Frontend · Backend · Python · DevOps · AI Agents · Full Stack · Mobile · Data</text>
+</svg>

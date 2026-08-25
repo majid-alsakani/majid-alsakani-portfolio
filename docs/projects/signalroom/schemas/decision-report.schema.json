@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://signalroom.dev/schemas/decision-report.schema.json",
+  "title": "SignalRoom Decision Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["decision", "score", "findings", "summary"],
+  "properties": {
+    "decision": {"type": "string", "enum": ["Release", "Hold", "Learn"]},
+    "score": {"type": "integer", "minimum": 0, "maximum": 100},
+    "summary": {"type": "string"},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "severity", "category", "title", "evidence", "action"],
+        "properties": {
+          "id": {"type": "string"},
+          "severity": {"type": "string", "enum": ["info", "warning", "blocking"]},
+          "category": {"type": "string", "enum": ["tests", "traces", "alerts", "contract", "policy"]},
+          "title": {"type": "string"},
+          "evidence": {"type": "string"},
+          "action": {"type": "string"}
+        }
+      }
+    }
+  }
+}

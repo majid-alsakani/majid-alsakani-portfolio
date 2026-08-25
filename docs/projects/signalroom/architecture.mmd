@@ -1,0 +1,15 @@
+flowchart LR
+  C[Change manifest] --> N[Normalize bounded inputs]
+  T[Test results] --> N
+  X[Trace JSONL] --> N
+  A[Alert timeline] --> N
+  P[API contract signal] --> N
+  N --> E[Evidence map]
+  N --> R[Replay timeline]
+  N --> G[Policy checks]
+  E --> D{Decision engine}
+  R --> D
+  G --> D
+  D --> O[Release / Hold / Learn]
+  O --> B[JSON + Markdown review bundle]
+  H[Human reviewer] --> D

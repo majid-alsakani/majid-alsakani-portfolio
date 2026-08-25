@@ -1,0 +1,26 @@
+{
+  "manifest": {
+    "id": "sr-2026-001",
+    "service": "checkout-api",
+    "environment": "staging",
+    "commit": "a1b2c3d4",
+    "author": "platform-team",
+    "summary": "Add idempotency key support",
+    "files": [
+      {"path": "src/idempotency.ts", "kind": "source", "risk": "medium"},
+      {"path": "tests/idempotency.test.ts", "kind": "test", "risk": "low"},
+      {"path": "openapi.yaml", "kind": "contract", "risk": "medium"}
+    ]
+  },
+  "tests": [
+    {"name": "unit:idempotency", "status": "passed", "durationMs": 118, "critical": true},
+    {"name": "contract:checkout", "status": "passed", "durationMs": 284, "critical": true},
+    {"name": "integration:retry", "status": "passed", "durationMs": 612, "critical": false}
+  ],
+  "traces": [
+    {"id": "tr-001", "tool": "http_request", "status": "ok", "durationMs": 240, "allowlisted": true},
+    {"id": "tr-002", "tool": "db_read", "status": "ok", "durationMs": 84, "allowlisted": true}
+  ],
+  "alerts": [],
+  "apiContract": {"status": "compatible", "evidence": "contract:checkout"}
+}

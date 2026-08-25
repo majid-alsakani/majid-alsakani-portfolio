@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08110f">
+  <meta name="description" content="SignalRoom is a local-first AI change evidence and incident replay workbench for release decisions.">
+  <meta property="og:title" content="SignalRoom — Change Evidence & Incident Replay">
+  <meta property="og:description" content="Connect changes to tests, traces, alerts, and a human-readable release decision. Runs locally in the browser.">
+  <meta property="og:type" content="website">
+  <title>SignalRoom — Change Evidence & Incident Replay</title>
+  <link rel="stylesheet" href="/majid-alsakani-portfolio/assets/css/site-v1.css"><link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SignalRoom","applicationCategory":"DeveloperApplication","operatingSystem":"Web","description":"Local-first evidence review and incident replay MVP for AI-assisted software changes."}</script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./"><span class="brand-mark">SR</span><span><strong>SignalRoom</strong><small>CHANGE EVIDENCE / REPLAY</small></span></a>
+    <nav><a href="#workbench">Workbench</a><a href="#architecture">Architecture</a><a href="https://github.com/majid-alsakani/signalroom">GitHub ↗</a></nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy"><p class="eyebrow">LOCAL-FIRST / HUMAN-OWNED DECISIONS</p><h1>Ship the change.<br><em>Keep the evidence.</em></h1><p class="hero-lede">SignalRoom connects a code or configuration change to its tests, traces, alerts, and contract evidence before the team makes a release decision.</p><div class="hero-actions"><a class="button primary" href="#workbench">Open workbench ↓</a><a class="button" href="docs/architecture.md">Read architecture ↗</a></div></div>
+      <div class="hero-signal"><div class="signal-ring"><span>SR</span></div><div class="signal-label"><span class="live-dot"></span><span>LOCAL EVIDENCE LOOP</span></div><div class="signal-flow"><span>CHANGE</span><b>→</b><span>PROOF</span><b>→</b><span>DECISION</span></div></div>
+    </section>
+    <section class="stats"><div><strong>4</strong><span>evidence channels</span></div><div><strong>3</strong><span>decisions</span></div><div><strong>0</strong><span>network calls</span></div><div><strong>100%</strong><span>human-readable</span></div></section>
+    <section id="workbench" class="workbench-section"><div class="section-heading"><div><p class="eyebrow">EVIDENCE WORKBENCH</p><h2>Review a change before it becomes an incident.</h2></div><span class="privacy-chip">● Runs in your browser</span></div>
+      <div class="scenario-bar"><span class="scenario-label">Load scenario</span><button class="scenario active" data-scenario="release-ready">Release ready</button><button class="scenario" data-scenario="release-held">Release held</button><button class="scenario" data-scenario="incident-learn">Incident learn</button><label class="import-button">Import JSON<input id="import-file" type="file" accept="application/json"></label></div>
+      <div class="dashboard-grid">
+        <section class="panel change-panel"><div class="panel-head"><span class="panel-kicker">01 / CHANGE</span><span id="change-environment" class="badge">STAGING</span></div><h3 id="change-summary">Add idempotency key support</h3><p id="change-service" class="muted">checkout-api · a1b2c3d4</p><div class="change-meta"><div><span>Author</span><strong id="change-author">platform-team</strong></div><div><span>Files</span><strong id="change-files">3</strong></div></div><div class="file-list" id="file-list"></div></section>
+        <section class="panel decision-panel"><div class="panel-head"><span class="panel-kicker">02 / DECISION</span><span id="decision-time" class="muted">local evaluation</span></div><div id="decision-orb" class="decision-orb release"><span id="decision-value">RELEASE</span><small id="decision-score">100 / 100</small></div><h3 id="decision-summary">Evidence is present and no blocking signal was detected.</h3><div class="decision-counts"><div><strong id="blocker-count">0</strong><span>blockers</span></div><div><strong id="warning-count">0</strong><span>warnings</span></div><div><strong id="evidence-count">5</strong><span>signals</span></div></div></section>
+        <section class="panel evidence-panel"><div class="panel-head"><span class="panel-kicker">03 / EVIDENCE MAP</span><span id="map-status" class="status-dot good">ALL PRESENT</span></div><div id="evidence-list" class="evidence-list"></div></section>
+        <section class="panel findings-panel"><div class="panel-head"><span class="panel-kicker">04 / FINDINGS</span><button id="toggle-details" class="text-button">Toggle detail</button></div><div id="findings-list" class="findings-list"></div></section>
+      </div>
+      <div class="action-row"><button id="replay-button" class="button primary">Replay evidence loop <span>↗</span></button><button id="export-json" class="button">Export JSON</button><button id="export-md" class="button">Export Markdown</button><span id="run-status" class="run-status" aria-live="polite">Ready for local evaluation.</span></div>
+    </section>
+    <section id="architecture" class="architecture-section"><div class="section-heading"><div><p class="eyebrow">THE OPERATING MODEL</p><h2>A decision is only as useful as its evidence chain.</h2></div></div><div class="architecture-grid"><div class="architecture-line"><div class="node"><span>01</span><strong>Change</strong><small>manifest + commit</small></div><i>→</i><div class="node"><span>02</span><strong>Normalize</strong><small>bounded local input</small></div><i>→</i><div class="node"><span>03</span><strong>Evaluate</strong><small>policies + replay</small></div><i>→</i><div class="node accent"><span>04</span><strong>Decide</strong><small>release / hold / learn</small></div></div><div class="contract-card"><div class="panel-kicker">STATE CONTRACT</div><pre id="state-contract">{
+  "decision": "Release",
+  "score": 100,
+  "blockers": 0,
+  "warnings": 0,
+  "evidence": "local-only"
+}</pre></div></div></section>
+    <section class="boundary"><div><p class="eyebrow">BOUNDARY</p><h2>Useful now. Honest about what comes next.</h2><p>SignalRoom MVP is deterministic and local. It does not ingest production telemetry, diagnose causality, execute rollback, or claim customer impact reduction. Its job is to make a decision chain inspectable and replayable.</p></div><a class="button" href="README.md">Read the README ↗</a></section>
+  </main>
+  <footer><span>© 2026 Majid Al-Sakani · SignalRoom MVP</span><span>Local-first / Evidence before autonomy</span></footer>
+  <script src="engine.js"></script><script src="app.js"></script>
+</body>
+</html>

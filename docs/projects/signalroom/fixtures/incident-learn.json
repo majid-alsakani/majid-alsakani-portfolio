@@ -1,0 +1,27 @@
+{
+  "manifest": {
+    "id": "sr-2026-003",
+    "service": "search-indexer",
+    "environment": "staging",
+    "commit": "b7c8d9e0",
+    "author": "search-team",
+    "summary": "Tune retry backoff after indexing incident",
+    "files": [
+      {"path": "src/retry.ts", "kind": "source", "risk": "medium"},
+      {"path": "tests/retry-regression.test.ts", "kind": "test", "risk": "medium"},
+      {"path": "runbook.md", "kind": "docs", "risk": "low"}
+    ]
+  },
+  "tests": [
+    {"name": "regression:indexing-timeout", "status": "passed", "durationMs": 486, "critical": true},
+    {"name": "integration:backoff", "status": "passed", "durationMs": 734, "critical": true}
+  ],
+  "traces": [
+    {"id": "tr-201", "tool": "queue_publish", "status": "ok", "durationMs": 315, "allowlisted": true},
+    {"id": "tr-202", "tool": "index_write", "status": "ok", "durationMs": 522, "allowlisted": true}
+  ],
+  "alerts": [
+    {"id": "al-9", "severity": "warning", "message": "Previous retry storm reproduced in baseline only", "timestamp": "2026-08-26T08:12:00Z"}
+  ],
+  "apiContract": {"status": "not-applicable", "evidence": "regression:indexing-timeout"}
+}

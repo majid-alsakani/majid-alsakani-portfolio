@@ -1,0 +1,27 @@
+{
+  "manifest": {
+    "id": "sr-2026-002",
+    "service": "agent-gateway",
+    "environment": "production",
+    "commit": "deadbeef",
+    "author": "ai-assisted-change",
+    "summary": "Add automatic refund tool",
+    "files": [
+      {"path": "src/tools/refund.ts", "kind": "source", "risk": "high"},
+      {"path": "src/policy.ts", "kind": "config", "risk": "high"},
+      {"path": "tests/refund.test.ts", "kind": "test", "risk": "high"}
+    ]
+  },
+  "tests": [
+    {"name": "unit:refund", "status": "failed", "durationMs": 392, "critical": true},
+    {"name": "contract:agent-tools", "status": "passed", "durationMs": 201, "critical": true}
+  ],
+  "traces": [
+    {"id": "tr-101", "tool": "refund_execute", "status": "blocked", "durationMs": 12, "allowlisted": false},
+    {"id": "tr-102", "tool": "db_read", "status": "ok", "durationMs": 95, "allowlisted": true}
+  ],
+  "alerts": [
+    {"id": "al-1", "severity": "critical", "message": "Refund error rate above policy threshold", "timestamp": "2026-08-26T09:41:00Z"}
+  ],
+  "apiContract": {"status": "breaking", "evidence": "missing response example for refund"}
+}

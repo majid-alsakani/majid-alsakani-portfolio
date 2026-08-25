@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://signalroom.dev/schemas/evidence-bundle.schema.json",
+  "title": "SignalRoom Evidence Bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["manifest", "tests", "traces", "alerts"],
+  "properties": {
+    "manifest": {"type": "string", "minLength": 1},
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status", "durationMs"],
+        "properties": {
+          "name": {"type": "string"},
+          "status": {"type": "string", "enum": ["passed", "failed", "skipped"]},
+          "durationMs": {"type": "number", "minimum": 0},
+          "critical": {"type": "boolean"}
+        }
+      }
+    },
+    "traces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "tool", "status", "durationMs"],
+        "properties": {
+          "id": {"type": "string"},
+          "tool": {"type": "string"},
+          "status": {"type": "string", "enum": ["ok", "error", "blocked"]},
+          "durationMs": {"type": "number", "minimum": 0},
+          "allowlisted": {"type": "boolean"}
+        }
+      }
+    },
+    "alerts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "severity", "message", "timestamp"],
+        "properties": {
+          "id": {"type": "string"},
+          "severity": {"type": "string", "enum": ["info", "warning", "critical"]},
+          "message": {"type": "string"},
+          "timestamp": {"type": "string", "format": "date-time"}
+        }
+      }
+    },
+    "apiContract": {"type": "object"}
+  }
+}

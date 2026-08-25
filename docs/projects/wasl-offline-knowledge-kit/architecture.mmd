@@ -1,0 +1,8 @@
+flowchart LR
+  A[Knowledge pack] --> C[Service Worker cache]
+  C --> L[Local store]
+  L --> S[Search and filters]
+  S --> R[Reader]
+  L --> E[JSON export]
+  N[Network state] --> C
+  N -. offline mode .-> R

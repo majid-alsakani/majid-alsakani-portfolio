@@ -1,0 +1,8 @@
+flowchart LR
+  D[Developer] --> I[Code / diff input]
+  I --> L[Line tokenizer]
+  L --> R[Local risk rules]
+  R --> E[Evidence ledger]
+  E --> F[Finding + fix]
+  F --> H[Human review]
+  I -. never executed .-> S[(Safe text boundary)]

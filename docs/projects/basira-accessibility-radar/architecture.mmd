@@ -1,0 +1,8 @@
+flowchart LR
+  U[Developer] --> E[HTML sample editor]
+  E --> P[Browser parser]
+  P --> R[Explainable rules]
+  R --> F[Evidence findings]
+  F --> O[Prioritized report]
+  O --> X[Suggested fix]
+  P -. no upload .-> L[(Local browser only)]

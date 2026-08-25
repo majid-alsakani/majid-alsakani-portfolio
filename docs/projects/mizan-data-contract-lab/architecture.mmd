@@ -1,0 +1,11 @@
+flowchart LR
+  U[Analyst] --> I[CSV input]
+  I --> P[Local parser]
+  P --> S[Schema profile]
+  P --> Q[Quality rules]
+  P --> V[Privacy signals]
+  S --> D[Contract decision]
+  Q --> D
+  V --> D
+  D --> R[Pass / Warn / Fail report]
+  I -. never uploaded .-> B[(Browser boundary)]

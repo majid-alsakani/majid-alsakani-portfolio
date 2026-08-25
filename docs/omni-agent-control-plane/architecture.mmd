@@ -1,0 +1,61 @@
+flowchart LR
+    U[User Request] --> UI[Command Center UI]
+    UI --> API[API Boundary]
+    API --> O[Orchestrator]
+    O --> S[(Session State + Trace)]
+    O --> P[Planner]
+    P --> R[Researcher]
+    P --> A[Analyst]
+    P --> RM[Risk Manager]
+    P --> ST[Strategic Planner]
+    R --> TR[Tool Registry]
+    A --> TR
+    RM --> TR
+    ST --> MEM[(Semantic Memory)]
+    TR --> E[Evidence + Structured Outputs]
+    E --> C[Critic / Consistency Review]
+    S --> C
+    C -->|revise| P
+    C -->|approved synthesis| SY[Synthesis]
+    C -->|needs review| H[Human Approval Gate]
+    H -->|approve| DM[(Durable Memory)]
+    H -->|reject or revise| P
+    SY --> OUT[Reviewable Result]
+    OUT --> UI
+
+    subgraph Client[Client Surface]
+      UI
+    end
+    subgraph Orchestration[Orchestration Layer]
+      API
+      O
+      P
+      C
+      SY
+    end
+    subgraph Specialists[Specialized Agents]
+      R
+      A
+      RM
+      ST
+    end
+    subgraph Governance[Governance]
+      TR
+      H
+    end
+    subgraph Memory[Memory]
+      S
+      MEM
+      DM
+    end
+
+    classDef client fill:#10264a,stroke:#4da3ff,color:#f3f6ff;
+    classDef orchestration fill:#211b4d,stroke:#a78bfa,color:#f3f6ff;
+    classDef agent fill:#113a3c,stroke:#5be0af,color:#f3f6ff;
+    classDef governance fill:#3b241f,stroke:#ff927c,color:#f3f6ff;
+    classDef memory fill:#162e48,stroke:#57d9ff,color:#f3f6ff;
+    class UI client;
+    class API,O,P,C,SY orchestration;
+    class R,A,RM,ST agent;
+    class TR,H governance;
+    class S,MEM,DM memory;

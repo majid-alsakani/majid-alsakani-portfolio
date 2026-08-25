@@ -7,6 +7,14 @@
   <description>Articles by Majid Al-Sakani (ماجد السكني) on Python, FastAPI, Django, React and AI systems.</description>
   <language>en</language>
   <item>
+    <title>Planner–Executor–Critic: A Practical Architecture for Reliable AI Systems — Majid Al-Sakani</title>
+    <link>https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/planner-executor-critic-ai-architecture.html</link>
+    <guid isPermaLink="true">https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/planner-executor-critic-ai-architecture.html</guid>
+    <description>A practical guide by Majid Al-Sakani on planning, bounded tool execution, critique loops, state, memory and human review in AI systems.</description>
+    <dc:creator>Majid Al-Sakani</dc:creator>
+    <pubDate>Tue, 25 Aug 2026 09:00:00 +0300</pubDate>
+  </item>
+  <item>
     <title>Designing a Bilingual Developer Roadmap (AR/EN) — Majid Al-Sakani</title>
     <link>https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/developer-roadmap-arabic.html</link>
     <guid isPermaLink="true">https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/developer-roadmap-arabic.html</guid>

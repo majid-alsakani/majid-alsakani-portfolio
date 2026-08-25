@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Planner–Executor–Critic: A Practical Architecture for Reliable AI Systems | Majid Al-Sakani</title>
+<meta name="description" content="A practical guide to the Planner–Executor–Critic architecture for AI systems: task decomposition, tool execution, critique loops, state, memory, observability and human review." />
+<meta name="author" content="Majid Al-Sakani — ماجد السكني" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+<link rel="canonical" href="https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/planner-executor-critic-ai-architecture.html" />
+<link rel="alternate" hreflang="en" href="https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/planner-executor-critic-ai-architecture.html" />
+<link rel="alternate" hreflang="x-default" href="https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/planner-executor-critic-ai-architecture.html" />
+<link rel="alternate" type="application/rss+xml" title="Majid Al-Sakani — Blog RSS" href="https://majid-alsakani.github.io/majid-alsakani-portfolio/rss.xml" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Majid Al-Sakani" />
+<meta property="og:title" content="Planner–Executor–Critic: A Practical Architecture for Reliable AI Systems" />
+<meta property="og:description" content="How to design an AI system that plans, executes tools, critiques its own work and keeps the human decision visible." />
+<meta property="og:url" content="https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/planner-executor-critic-ai-architecture.html" />
+<meta property="og:image" content="https://majid-alsakani.github.io/majid-alsakani-portfolio/assets/articles/planner-executor-critic/command-center.webp" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Planner–Executor–Critic: A Practical Architecture for Reliable AI Systems" />
+<meta name="twitter:description" content="A practical architecture for decomposing complex AI tasks into planning, execution and review." />
+<meta name="twitter:image" content="https://majid-alsakani.github.io/majid-alsakani-portfolio/assets/articles/planner-executor-critic/command-center.webp" />
+<link rel="icon" type="image/x-icon" href="/majid-alsakani-portfolio/favicon.ico" />
+<link rel="icon" type="image/png" sizes="48x48" href="/majid-alsakani-portfolio/favicon-48.png" />
+<link rel="icon" type="image/png" sizes="96x96" href="/majid-alsakani-portfolio/favicon-96.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/majid-alsakani-portfolio/apple-touch-icon.png" />
+<link rel="stylesheet" href="/majid-alsakani-portfolio/assets/css/site-v1.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Planner–Executor–Critic: A Practical Architecture for Reliable AI Systems","description":"A practical guide to the Planner–Executor–Critic architecture for AI systems.","image":["https://majid-alsakani.github.io/majid-alsakani-portfolio/assets/articles/planner-executor-critic/command-center.webp","https://majid-alsakani.github.io/majid-alsakani-portfolio/assets/articles/planner-executor-critic/multi-agent-architecture.png"],"author":{"@type":"Person","name":"Majid Al-Sakani","alternateName":"ماجد السكني","url":"https://majid-alsakani.github.io/majid-alsakani-portfolio/"},"publisher":{"@type":"Person","name":"Majid Al-Sakani"},"datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/planner-executor-critic-ai-architecture.html"},"keywords":["Planner Executor Critic","AI agents","LangGraph","multi-agent systems","AI architecture","human in the loop"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Majid Al-Sakani","item":"https://majid-alsakani.github.io/majid-alsakani-portfolio/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://majid-alsakani.github.io/majid-alsakani-portfolio/blog.html"},{"@type":"ListItem","position":3,"name":"Planner–Executor–Critic Architecture","item":"https://majid-alsakani.github.io/majid-alsakani-portfolio/articles/planner-executor-critic-ai-architecture.html"}]}</script>
+</head>
+<body>
+<article class="v1-article">
+  <nav class="v1-article-nav" aria-label="Article navigation"><a class="v1-article-brand" href="/majid-alsakani-portfolio/"><img src="/majid-alsakani-portfolio/assets/brand/majid-mark.png" alt="" width="32" height="32" /> <span>ماجد السكني · Majid Al-Sakani</span></a><div class="v1-article-navlinks"><a href="/majid-alsakani-portfolio/">Home</a><a href="/majid-alsakani-portfolio/blog.html">Blog</a><a href="/majid-alsakani-portfolio/case-studies/">Case Studies</a><a class="v1-article-language" href="/majid-alsakani-portfolio/ar/">العربية</a></div></nav>
+  <header class="v1-article-hero"><div class="v1-article-kicker">AI Systems · Architecture · Agents</div><h1>Planner–Executor–Critic:<br /><span class="accent">A practical architecture for reliable AI systems.</span></h1><p class="v1-article-dek">Complex tasks rarely fail because an LLM cannot write one answer. They fail because the system has no explicit plan, no execution boundary and no reliable way to tell a plausible answer from a useful one.</p><div class="v1-article-byline"><strong>Majid Al-Sakani</strong> · ماجد السكني · Published Aug 25, 2026 · 11 min read</div></header>
+  <figure class="v1-article-cover"><img src="/majid-alsakani-portfolio/assets/articles/planner-executor-critic/command-center.webp" alt="Omni-Agent AI Command Center showing agents, memory and tools" width="1600" height="900" fetchpriority="high" /><figcaption>Omni-Agent AI Command Center: a real interface for inspecting agent work, memory and allowed tools.</figcaption></figure>
+  <div class="v1-article-layout"><aside class="v1-article-toc" aria-label="Table of contents"><strong>On this page</strong><a href="#mental-model">The mental model</a><a href="#why">Why one call is not enough</a><a href="#planner">1. The Planner</a><a href="#executor">2. The Executor</a><a href="#critic">3. The Critic</a><a href="#state">State and memory</a><a href="#failure">Failure modes</a><a href="#implementation">Implementation sketch</a><a href="#omni">How this maps to Omni</a><a href="#checklist">Production checklist</a></aside>
+  <div class="v1-article-content">
+    <p class="v1-article-lead">I use the Planner–Executor–Critic pattern when a task is too open-ended for a single model call but too important to leave to an opaque autonomous loop. The pattern gives an AI system three different responsibilities: decide what should happen, perform bounded work, and challenge the result before it reaches the user.</p>
+    <p>This is not a claim that every application needs agents. In fact, the best starting point is often a deterministic workflow or a single augmented model call. Anthropic makes the same distinction between predefined workflows and systems where the model dynamically directs its own process, and recommends adding complexity only when the task justifies the trade-off in latency, cost and control. <a href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener">[2]</a></p>
+
+    <h2 id="mental-model">The mental model</h2>
+    <p>The simplest version looks like this:</p>
+    <div class="v1-article-flow" role="img" aria-label="Planner to Executor to Critic loop"><span>Goal</span><b>→</b><span>Planner</span><b>→</b><span>Executor</span><b>→</b><span>Critic</span><b>↺</b><span>Approved result</span></div>
+    <p>The important detail is that the Critic does not merely ask the same model to “try harder.” It receives a contract, evidence and an explicit set of checks. When the result fails, the system sends structured feedback to the Planner or Executor instead of silently returning a polished error.</p>
+    <div class="v1-article-callout"><strong>Architecture principle</strong><span>Give each step a narrower responsibility than the whole task. Reliability comes from the boundaries between steps, not from asking one prompt to do everything.</span></div>
+
+    <h2 id="why">Why one LLM call is not enough</h2>
+    <p>A single call is excellent for bounded transformations: classify this text, extract these fields, summarize this document. The shape changes when the request includes multiple goals, external tools, conflicting evidence or irreversible actions.</p>
+    <p>For example, “evaluate whether we should expand into a new market” may require research, data analysis, risk identification, assumption tracking and a decision draft. A single response can sound coherent while hiding missing evidence. Decomposing the work makes the system inspectable: we can see what it planned, what it actually executed, what evidence it used and why a reviewer accepted or rejected the result.</p>
+
+    <h2 id="planner">1. The Planner: convert intent into a contract</h2>
+    <p>The Planner translates the user’s goal into a small, explicit plan. A good plan is not a long chain of vague prompts. It is a set of typed work items with dependencies, tools, expected outputs and stopping conditions.</p>
+    <table class="v1-article-table"><thead><tr><th>Plan field</th><th>Purpose</th></tr></thead><tbody><tr><td>Objective</td><td>The decision or artifact the system must produce.</td></tr><tr><td>Tasks</td><td>Small units that can be executed and reviewed independently.</td></tr><tr><td>Dependencies</td><td>What must exist before a task can start.</td></tr><tr><td>Evidence contract</td><td>What counts as support and what remains an assumption.</td></tr><tr><td>Allowed tools</td><td>The narrow set of tools the next step may call.</td></tr><tr><td>Exit criteria</td><td>Conditions that stop expansion and prevent an endless loop.</td></tr></tbody></table>
+    <p>The Planner should also be allowed to choose a simpler route. In Omni-Agent AI, the Auto mode distinguishes simpler tasks from work that benefits from multiple specialized agents. The goal is not to maximize the number of agents; it is to spend orchestration only where it improves the answer.</p>
+
+    <h2 id="executor">2. The Executor: do bounded work</h2>
+    <p>The Executor turns a plan item into an action. It may call a search tool, inspect a CSV, query a database, transform a document or ask a specialist model to produce a structured artifact. The Executor should not be allowed to redefine the objective silently.</p>
+    <p>That boundary creates an important interface. The Executor receives an input such as:</p>
+    <pre><code>{
+  "task_id": "market-evidence-01",
+  "objective": "identify evidence about demand",
+  "allowed_tools": ["search", "csv_profile"],
+  "output_schema": "EvidenceCard",
+  "constraints": ["cite sources", "mark assumptions"]
+}</code></pre>
+    <p>It returns a result that can be stored, displayed and evaluated:</p>
+    <pre><code>{
+  "task_id": "market-evidence-01",
+  "status": "completed",
+  "evidence": [],
+  "assumptions": [],
+  "tool_trace": [],
+  "confidence": "needs_review"
+}</code></pre>
+    <p>The exact schema will vary by product. The principle is stable: outputs should be data, not only prose. Structured results make retries, comparisons, auditing and UI rendering possible.</p>
+
+    <h2 id="critic">3. The Critic: challenge the result</h2>
+    <p>The Critic is a quality boundary. It checks whether the output satisfies the plan, whether the evidence actually supports the claim, whether the tool use stayed within its permissions and whether the result is complete enough for the intended decision.</p>
+    <p>It is useful to separate at least three kinds of critique:</p>
+    <div class="v1-article-grid"><div class="v1-article-card"><strong>Contract review</strong><p>Did the Executor return the required fields and follow the requested format?</p></div><div class="v1-article-card"><strong>Evidence review</strong><p>Are claims grounded in retrieved or uploaded evidence, with assumptions marked?</p></div><div class="v1-article-card"><strong>Risk review</strong><p>Could the result cause harm, leak data or trigger an action that needs a human?</p></div></div>
+    <p>A failed critique should be actionable. “Low quality” is not enough. The Critic should return a reason, the failed check, the relevant task and the smallest useful retry:</p>
+    <pre><code>{
+  "verdict": "revise",
+  "failed_checks": ["missing_evidence_for_claim_3"],
+  "feedback": "Add one primary source or downgrade the claim to an assumption.",
+  "retry": {"task_id": "market-evidence-01", "scope": "claim_3"}
+}</code></pre>
+
+    <h2 id="state">State and memory are part of the architecture</h2>
+    <p>The loop needs a shared state that records the goal, plan, task outputs, tool traces, critique feedback and approval status. Without state, the system cannot explain what happened or resume after a failure.</p>
+    <p>Memory should be split by purpose. Session state is temporary working context. Episodic memory records what happened in a prior run. Semantic memory stores reusable facts or preferences. In Omni-Agent AI, the memory layer supports JSON session memory and vector-ready semantic retrieval. The Strategic Decision Twin adds an important governance boundary: a decision draft remains <code>pending_human_review</code> and is not promoted to semantic memory until explicit approval.</p>
+    <figure class="v1-article-media"><img src="/majid-alsakani-portfolio/assets/articles/planner-executor-critic/multi-agent-architecture.png" alt="Omni-Agent multi-agent architecture showing orchestration and semantic memory" width="1600" height="900" loading="lazy" /><figcaption>Omni-Agent’s architecture separates orchestration, specialized agents, tools and memory so the system can expose its work.</figcaption></figure>
+
+    <h2 id="failure">Failure modes to design for</h2>
+    <table class="v1-article-table"><thead><tr><th>Failure mode</th><th>Design response</th></tr></thead><tbody><tr><td>Planner over-decomposes</td><td>Set task budgets, depth limits and a simpler fallback path.</td></tr><tr><td>Executor drifts from the goal</td><td>Pass a typed task contract and reject outputs outside the schema.</td></tr><tr><td>Critic rubber-stamps</td><td>Give it independent checks, evidence access and adversarial examples.</td></tr><tr><td>Memory contaminates a new task</td><td>Separate session context from durable memory and label provenance.</td></tr><tr><td>Tool performs an external side effect</td><td>Use allowlists, scoped credentials and explicit human confirmation.</td></tr><tr><td>Loop becomes expensive</td><td>Measure latency and token cost per task; stop when the marginal value drops.</td></tr></tbody></table>
+
+    <h2 id="implementation">A small implementation sketch</h2>
+    <p>The following pseudocode shows the control flow, not a framework-specific implementation:</p>
+    <pre><code>state = load_state(request)
+
+if should_use_simple_path(state):
+    return single_step_answer(state)
+
+state.plan = planner.create_plan(state.goal, state.context)
+
+for task in state.plan.tasks:
+    result = executor.run(
+        task=task,
+        tools=allowlisted_tools(task),
+        state=state
+    )
+    state.results.append(result)
+
+    critique = critic.review(
+        task=task,
+        result=result,
+        evidence=state.evidence,
+        contract=task.output_schema
+    )
+
+    if critique.verdict == "revise":
+        state.feedback.append(critique)
+        retry(task, critique, state)
+
+final = synthesizer.compose(state.results, state.feedback)
+return human_review_gate(final, state)
+</code></pre>
+    <p>In a graph runtime, each major function becomes a node and the verdict becomes a conditional edge. LangGraph describes this kind of runtime as a low-level orchestration layer for long-running, stateful agents, with support for mixing deterministic steps and LLM-driven steps in one graph. <a href="https://docs.langchain.com/oss/python/langgraph/overview" rel="noopener">[1]</a></p>
+
+    <h2 id="omni">How this maps to Omni-Agent AI</h2>
+    <p>Omni-Agent AI implements the same architectural idea under a broader PRAR loop: Perception, Reasoning, Action and Reflection. In practical terms:</p>
+    <table class="v1-article-table"><thead><tr><th>Planner–Executor–Critic</th><th>Omni-Agent expression</th></tr></thead><tbody><tr><td>Planner</td><td>Orchestrator and Strategic Planner determine the route and specialized work.</td></tr><tr><td>Executor</td><td>Researcher, Analyst, Risk Manager and data agents execute scoped tasks with allowed tools.</td></tr><tr><td>Critic</td><td>Consistency Review, synthesis and the Reflection stage challenge outputs before completion.</td></tr><tr><td>State</td><td>Session memory, task trace, agent status and tool log exposed in Command Center.</td></tr><tr><td>Human gate</td><td>External actions and Strategic Decision Twin approvals require explicit human review.</td></tr></tbody></table>
+    <p>This mapping is useful because it turns an abstract architecture into inspectable product behavior. A user can see which agents participated, which tools were allowed, what the system remembers and whether the result is still awaiting approval.</p>
+
+    <h2 id="checklist">Production checklist</h2>
+    <p>Before calling a Planner–Executor–Critic system production-ready, I would verify five things: every task has a bounded contract; every tool call is authorized and observable; critique failures lead to a targeted retry; memory has provenance and retention rules; and the system has an evaluation set that measures task success, not just fluent text.</p>
+    <p>I would also keep a simple path. If a single model call with retrieval solves the problem faster and more cheaply, use it. Complexity is not an achievement by itself. The architecture earns its place when planning, execution and critique create a measurable improvement in reliability, coverage or reviewability.</p>
+
+    <div class="v1-article-next"><div><strong>Continue the build</strong><span>Read the full Omni-Agent AI case study when it is published.</span></div><a class="v1-button primary" href="/majid-alsakani-portfolio/case-studies/joobea.html">Read Joobea case study ↗</a></div>
+    <section class="v1-article-references"><h2>References</h2><ol><li><a href="https://docs.langchain.com/oss/python/langgraph/overview" rel="noopener">LangGraph overview — Docs by LangChain</a></li><li><a href="https://www.anthropic.com/engineering/building-effective-agents" rel="noopener">Building effective agents — Anthropic</a></li></ol></section>
+  </div></div>
+  <footer class="v1-article-footer">© <span id="year"></span> Majid Al-Sakani · ماجد السكني · <a href="/majid-alsakani-portfolio/blog.html">Back to Blog</a></footer>
+</article>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

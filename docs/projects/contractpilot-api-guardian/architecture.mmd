@@ -1,0 +1,15 @@
+flowchart LR
+  A[Before contract snapshot] --> P[Bounded local parser]
+  B[After contract snapshot] --> P
+  P --> N[Normalize paths operations params responses]
+  N --> R[Compatibility rules]
+  R --> E[Evidence ledger]
+  E --> D{Merge decision}
+  D -->|breaking| H[Human review required]
+  D -->|additive or unchanged| O[Review rollout and ownership]
+  classDef input fill:#0e2b23,stroke:#70e7c2,color:#effff8;
+  classDef core fill:#11251f,stroke:#70e7c2,color:#effff8;
+  classDef decision fill:#3a2b12,stroke:#f2c66d,color:#fff7df;
+  class A,B input;
+  class P,N,R,E core;
+  class D,H,O decision;

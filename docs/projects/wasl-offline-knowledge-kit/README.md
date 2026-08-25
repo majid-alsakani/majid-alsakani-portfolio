@@ -16,6 +16,8 @@ The demo provides a starter pack, local search, tag filters, connection state, J
 
 - [Watch the six-second product tour](assets/demo.mp4)
 - [Open the browser preview image](assets/preview.webp)
+- [Open the architecture diagram](assets/architecture.png)
+- [Read the portfolio case study](https://majid-alsakani.github.io/majid-alsakani-portfolio/case-studies/wasl-offline-knowledge-kit.html)
 
 ## Run locally
 

@@ -16,6 +16,8 @@ The browser rules detect credential-like strings, dynamic `eval`, risky query co
 
 - [Watch the six-second product tour](assets/demo.mp4)
 - [Open the browser preview image](assets/preview.webp)
+- [Open the architecture diagram](assets/architecture.png)
+- [Read the portfolio case study](https://majid-alsakani.github.io/majid-alsakani-portfolio/case-studies/codeproof-ai-review.html)
 
 ## Run locally
 

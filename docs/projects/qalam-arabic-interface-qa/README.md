@@ -16,6 +16,8 @@ The demo detects Arabic and Latin runs, numeric characters, URL-like content, an
 
 - [Watch the six-second product tour](assets/demo.mp4)
 - [Open the browser preview image](assets/preview.webp)
+- [Open the architecture diagram](assets/architecture.png)
+- [Read the portfolio case study](https://majid-alsakani.github.io/majid-alsakani-portfolio/case-studies/qalam-arabic-interface-qa.html)
 
 ## Run locally
 

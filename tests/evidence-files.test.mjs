@@ -10,6 +10,9 @@ const read = (relativePath) => readFileSync(resolve(docs, relativePath), "utf8")
 const requiredFiles = [
   "assets/css/evidence-files.css",
   "assets/js/evidence-files.js",
+  "assets/motion/joobea-signal-motion.mp4",
+  "assets/motion/sini-progress-motion.mp4",
+  "assets/motion/omni-orchestration-motion.mp4",
   "case-studies/index.html",
   "ar/case-studies/index.html",
   "contact.html",
@@ -38,5 +41,17 @@ const interactions = read("assets/js/evidence-files.js");
 assert.match(interactions, /function showStep/, "Contact flow script should provide staged navigation");
 assert.match(interactions, /project_type/, "Contact flow script should capture the selected project type");
 assert.match(interactions, /form\.checkValidity\(\)/, "Contact flow should validate required fields before submission");
+
+const motionFiles = [
+  ["case-studies/joobea.html", "joobea-signal-motion.mp4"],
+  ["case-studies/sini-alkhafif.html", "sini-progress-motion.mp4"],
+  ["case-studies/omni-agent-ai.html", "omni-orchestration-motion.mp4"],
+];
+motionFiles.forEach(([casePath, videoName]) => {
+  const caseStudy = read(casePath);
+  assert.match(caseStudy, new RegExp(videoName), `${casePath} should reference ${videoName}`);
+  assert.match(caseStudy, /autoplay controls loop muted playsinline/, `${casePath} should expose a silent looping video with controls`);
+  assert.match(caseStudy, /poster="\/majid-alsakani-portfolio\//, `${casePath} should provide a poster fallback`);
+});
 
 console.log("Evidence Files integrity checks passed.");

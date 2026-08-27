@@ -71,6 +71,28 @@ const homeInteractions = read("assets/js/cinema-home.js");
 assert.match(homeInteractions, /soundToggle/, "home script should handle optional sound control");
 assert.match(homeInteractions, /transitionSound\.volume = 0\.18/, "transition sound should remain low-level by default");
 
+assert.match(home, /id="projects"/, "home should provide a permanent projects index");
+assert.match(home, /Explore all projects/, "home hero should guide visitors to all projects");
+assert.match(home, /Evidence · 14/, "primary navigation should expose the case-study archive");
+[
+  "https://joobea.com",
+  "https://sinialkhafifapp.com",
+  "https://github.com/majid-alsakani/omni-agent-ai",
+  "case-studies/signalroom.html",
+].forEach((destination) => {
+  assert.match(home, new RegExp(destination.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), `home should expose ${destination}`);
+});
+const arabicHome = read("ar/index.html");
+assert.match(arabicHome, /id="projects"/, "Arabic home should provide a permanent projects index");
+assert.match(arabicHome, /كل المشاريع/, "Arabic home should expose the projects navigation");
+
+const caseLinkPattern = /href="\/majid-alsakani-portfolio\/(?:ar\/)?case-studies\/([^"#]+\.html)"/g;
+const indexedCaseFiles = [...home.matchAll(caseLinkPattern), ...arabicHome.matchAll(caseLinkPattern)].map((match) => match[1]);
+assert.ok(indexedCaseFiles.length >= 22, "the two project indexes should link to the complete case-file directory");
+indexedCaseFiles.forEach((fileName) => {
+  assert.ok(existsSync(resolve(docs, "case-studies", fileName)), `indexed case file ${fileName} should exist`);
+});
+
 const nowPage = read("now.html");
 assert.match(nowPage, /data-now-source/, "Now page should receive a dynamic source");
 assert.match(nowPage, /data-now-grid/, "Now page should render current project cards dynamically");

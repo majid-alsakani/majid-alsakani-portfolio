@@ -55,5 +55,28 @@ try {
   assert.match(utm, /utm_source=newsletter/, "UTM builder should include campaign source");
   assert.match(utm, /utm_campaign=launch/, "UTM builder should include campaign name");
 
+  await cdp("Page.navigate", { url: "http://localhost:4174/majid-alsakani-portfolio/ar/tools/arabic-slug-text-cleaner/" });
+  await sleep(450);
+  const slug = await evaluate(`(() => {
+    const events = [];
+    window.gtag = (...args) => events.push(args);
+    const input = document.querySelector('#tool-input');
+    input.value = 'آثارُ واجهةٍ ـــ عربية!!!';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    document.querySelector('#strip-diacritics').checked = true;
+    document.querySelector('#normalize-letters').checked = true;
+    document.querySelector('#include-latin').checked = true;
+    document.querySelector('#make-slug').click();
+    return { result: document.querySelector('#tool-result').textContent, status: document.querySelector('#tool-status').textContent, events };
+  })()`);
+  assert.match(slug.result, /اثار-واجهة-عربية/, "Arabic slug tool should clean diacritics, tatweel and punctuation without removing Arabic text");
+  assert.match(slug.result, /%D8%A7%D8%AB%D8%A7%D8%B1/, "Arabic slug tool should provide a URL-encoded slug");
+  assert.match(slug.result, /Slug لاتيني اختياري/, "Arabic slug tool should provide the optional Latin output when selected");
+  assert.match(slug.status, /تم إنشاء النتائج محلياً/, "Arabic slug tool should confirm local processing");
+  const serializedEvents = JSON.stringify(slug.events);
+  assert.doesNotMatch(serializedEvents, /آثار|واجهة|عربية/, "tool analytics should never include the user input or output");
+  assert.match(serializedEvents, /tool_start/, "Arabic slug tool should expose an optional start event when GA4 is configured");
+  assert.match(serializedEvents, /tool_complete/, "Arabic slug tool should expose an optional completion event when GA4 is configured");
+
   console.log("Tools browser UX checks passed.");
 } finally { socket?.close(); chrome.kill("SIGTERM"); }

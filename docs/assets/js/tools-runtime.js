@@ -19,7 +19,22 @@
     badDate: language === "ar" ? "أدخل طابع Unix أو تاريخ ISO صالحاً." : "Enter a valid Unix timestamp or ISO date.",
     badUrl: language === "ar" ? "أدخل رابطاً كاملاً يبدأ بـ https:// أو http://" : "Enter a complete URL beginning with https:// or http://",
     utmRequired: language === "ar" ? "أدخل رابط الصفحة واسم مصدر الحملة على الأقل." : "Enter at least the landing page URL and campaign source.",
+    slugRequired: language === "ar" ? "أدخل عنواناً أو نصاً لإنشاء الرابط." : "Enter a title or text to create a slug.",
+    slugReady: language === "ar" ? "تم إنشاء النتائج محلياً في متصفحك." : "Results were created locally in your browser.",
+    emptySlug: language === "ar" ? "لم يتبق نص صالح لإنشاء رابط. جرّب حروفاً أو أرقاماً." : "No usable text remains for a slug. Try letters or numbers.",
   };
+
+  function inputLengthBucket(value) {
+    if (value.length <= 40) return "1_40";
+    if (value.length <= 100) return "41_100";
+    return "101_plus";
+  }
+
+  /* This does nothing until the owner intentionally adds an approved GA4 Google tag. Never pass visitor text, URLs, JWTs, or results here. */
+  function trackToolEvent(name, parameters) {
+    if (typeof window.gtag !== "function") return;
+    window.gtag("event", name, Object.assign({ tool_id: document.body.dataset.tool, locale: language }, parameters || {}));
+  }
 
   function setResult(node, value, state) {
     if (!node) return;
@@ -123,4 +138,69 @@
       form.elements.url.value = "https://example.com/product"; form.elements.source.value = "newsletter"; form.elements.medium.value = "email"; form.elements.campaign.value = "product_launch"; buildUtm();
     });
   }
+
+  if (tool === "arabic-slug") {
+    var slugInput = document.getElementById("tool-input");
+    var slugResult = document.getElementById("tool-result");
+    var slugStatus = document.getElementById("tool-status");
+    var stripDiacritics = document.getElementById("strip-diacritics");
+    var normalizeLetters = document.getElementById("normalize-letters");
+    var includeLatin = document.getElementById("include-latin");
+    var slugStarted = false;
+    var diacritics = /[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED]/g;
+    var transliteration = { "ا": "a", "أ": "a", "إ": "i", "آ": "a", "ٱ": "a", "ب": "b", "ت": "t", "ث": "th", "ج": "j", "ح": "h", "خ": "kh", "د": "d", "ذ": "dh", "ر": "r", "ز": "z", "س": "s", "ش": "sh", "ص": "s", "ض": "d", "ط": "t", "ظ": "z", "ع": "a", "غ": "gh", "ف": "f", "ق": "q", "ك": "k", "ل": "l", "م": "m", "ن": "n", "ه": "h", "ة": "h", "و": "w", "ؤ": "w", "ي": "y", "ى": "a", "ئ": "y" };
+
+    function cleanArabic(value) {
+      var cleaned = value.normalize("NFC").replace(/\u0640/g, "");
+      if (stripDiacritics.checked) cleaned = cleaned.replace(diacritics, "");
+      if (normalizeLetters.checked) cleaned = cleaned.replace(/[أإآٱ]/g, "ا").replace(/ى/g, "ي");
+      return cleaned.replace(/[\t\n\r ]+/g, " ").replace(/[\u200E\u200F\u202A-\u202E]/g, "").trim();
+    }
+
+    function toArabicSlug(value) {
+      return value.toLocaleLowerCase("ar").replace(/[^\p{L}\p{N}\u0600-\u06FF]+/gu, "-").replace(/-+/g, "-").replace(/^-|-$/g, "");
+    }
+
+    function toLatinSlug(value) {
+      return Array.from(value).map(function (character) {
+        if (character === "-") return "-";
+        if (transliteration[character]) return transliteration[character];
+        return /[a-z0-9]/i.test(character) ? character.toLowerCase() : "";
+      }).join("").replace(/-+/g, "-").replace(/^-|-$/g, "");
+    }
+
+    function makeSlug() {
+      if (!slugInput.value.trim()) return setResult(slugResult, text.slugRequired, "error");
+      var cleaned = cleanArabic(slugInput.value);
+      var arabicSlug = toArabicSlug(cleaned);
+      if (!arabicSlug) {
+        slugStatus.textContent = text.emptySlug;
+        trackToolEvent("tool_error", { error_category: "empty_slug" });
+        return setResult(slugResult, text.emptySlug, "error");
+      }
+      var output = (language === "ar" ? "النص المنظف" : "CLEANED TEXT") + "\n" + cleaned + "\n\n" + (language === "ar" ? "Slug عربي" : "ARABIC SLUG") + "\n" + arabicSlug + "\n\nURL-ENCODED\n" + encodeURIComponent(arabicSlug);
+      if (includeLatin.checked) output += "\n\n" + (language === "ar" ? "Slug لاتيني اختياري" : "OPTIONAL LATIN SLUG") + "\n" + toLatinSlug(arabicSlug);
+      setResult(slugResult, output, "success");
+      slugStatus.textContent = text.slugReady;
+      trackToolEvent("tool_complete", { input_length_bucket: inputLengthBucket(slugInput.value), result_type: includeLatin.checked ? "arabic_and_latin" : "arabic", normalization: normalizeLetters.checked ? "enabled" : "preserved", diacritics: stripDiacritics.checked ? "removed" : "preserved" });
+    }
+
+    slugInput.addEventListener("input", function () {
+      if (slugStarted || !slugInput.value.trim()) return;
+      slugStarted = true;
+      trackToolEvent("tool_start", { input_length_bucket: inputLengthBucket(slugInput.value) });
+    });
+    document.getElementById("make-slug").addEventListener("click", makeSlug);
+    document.getElementById("sample-slug").addEventListener("click", function () {
+      slugInput.value = language === "ar" ? "كيف تبني واجهة عربية سهلة القراءة؟" : "How do you build an Arabic interface that is easy to read?";
+      if (!slugStarted) { slugStarted = true; trackToolEvent("tool_start", { input_length_bucket: "1_40", entry_method: "sample" }); }
+      makeSlug();
+    });
+  }
+
+  document.addEventListener("click", function (event) {
+    var projectCta = event.target.closest("[data-project-cta]");
+    if (!projectCta) return;
+    trackToolEvent("select_content", { content_type: "project_cta", item_id: projectCta.dataset.projectId, cta_position: projectCta.dataset.ctaPosition || "unknown" });
+  });
 })();

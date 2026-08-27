@@ -37,6 +37,8 @@ const requiredFiles = [
   "ar/tools/timestamp-converter/index.html",
   "tools/utm-builder/index.html",
   "ar/tools/utm-builder/index.html",
+  "tools/arabic-slug-text-cleaner/index.html",
+  "ar/tools/arabic-slug-text-cleaner/index.html",
 ];
 requiredFiles.forEach((relativePath) => assert.ok(existsSync(resolve(docs, relativePath)), `${relativePath} should exist`));
 
@@ -135,10 +137,11 @@ assert.match(projectStyles, /project-directory-and-updates/, "styles should plac
 
 const toolsHub = read("tools/index.html");
 assert.match(toolsHub, /@type":"CollectionPage"/, "tools hub should expose CollectionPage data");
-assert.match(toolsHub, /numberOfItems":4/, "tools hub should enumerate the four launch tools");
+assert.match(toolsHub, /numberOfItems":5/, "tools hub should enumerate the five launch tools");
 const arabicToolsHub = read("ar/tools/index.html");
 assert.match(arabicToolsHub, /<html lang="ar" dir="rtl">/, "Arabic tools hub should preserve RTL direction");
-const toolPages = ["json-formatter", "jwt-decoder", "timestamp-converter", "utm-builder"];
+assert.match(arabicToolsHub, /numberOfItems":5/, "Arabic tools hub should enumerate the five launch tools");
+const toolPages = ["json-formatter", "jwt-decoder", "timestamp-converter", "utm-builder", "arabic-slug-text-cleaner"];
 toolPages.forEach((tool) => {
   const englishTool = read(`tools/${tool}/index.html`);
   const arabicTool = read(`ar/tools/${tool}/index.html`);
@@ -149,8 +152,13 @@ toolPages.forEach((tool) => {
   assert.match(sitemap, new RegExp(`/ar/tools/${tool}/`), `Arabic ${tool} should be included in the sitemap`);
 });
 const toolsRuntime = read("assets/js/tools-runtime.js");
-["processJson", "decodeJwt", "convertTimestamp", "buildUtm"].forEach((functionName) => assert.match(toolsRuntime, new RegExp(`function ${functionName}`), `${functionName} should be implemented client-side`));
+["processJson", "decodeJwt", "convertTimestamp", "buildUtm", "cleanArabic", "toArabicSlug", "toLatinSlug", "trackToolEvent"].forEach((functionName) => assert.match(toolsRuntime, new RegExp(`function ${functionName}`), `${functionName} should be implemented client-side`));
 assert.doesNotMatch(toolsRuntime, /fetch\(/, "tools should not submit visitor inputs to a remote endpoint");
+const arabicSlugPage = read("ar/tools/arabic-slug-text-cleaner/index.html");
+assert.match(arabicSlugPage, /منشئ Slug عربي ومنظف نص/, "Arabic slug page should expose the intended user task");
+assert.match(arabicSlugPage, /qalam-arabic-interface-qa\.html/, "Arabic slug page should bridge users to the relevant Qalam evidence file");
+assert.match(arabicSlugPage, /data-project-cta/, "Arabic slug page should expose an attributable project CTA");
+assert.match(homeInteractions, /arabic-slug-text-cleaner/, "home tools shortcut should include the Arabic slug tool");
 
 const nowPage = read("now.html");
 assert.match(nowPage, /data-now-source/, "Now page should receive a dynamic source");

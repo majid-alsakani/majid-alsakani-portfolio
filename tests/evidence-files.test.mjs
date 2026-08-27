@@ -23,6 +23,8 @@ const requiredFiles = [
   "contact.html",
   "now.html",
   "ar/now.html",
+  "projects/index.html",
+  "ar/projects/index.html",
 ];
 requiredFiles.forEach((relativePath) => assert.ok(existsSync(resolve(docs, relativePath)), `${relativePath} should exist`));
 
@@ -70,6 +72,9 @@ assert.match(home, /data-signal-transition/, "home should register the optional 
 const homeInteractions = read("assets/js/cinema-home.js");
 assert.match(homeInteractions, /soundToggle/, "home script should handle optional sound control");
 assert.match(homeInteractions, /transitionSound\.volume = 0\.18/, "transition sound should remain low-level by default");
+assert.match(homeInteractions, /project-updates/, "home should insert a project-adjacent updates section");
+assert.match(homeInteractions, /settleProjectAnchor/, "home should settle the projects anchor after a direct visit");
+assert.match(homeInteractions, /is-settling-project-anchor/, "deep-linked project anchor should bypass smooth scrolling until it settles");
 
 assert.match(home, /id="projects"/, "home should provide a permanent projects index");
 assert.match(home, /Explore all projects/, "home hero should guide visitors to all projects");
@@ -92,6 +97,27 @@ assert.ok(indexedCaseFiles.length >= 22, "the two project indexes should link to
 indexedCaseFiles.forEach((fileName) => {
   assert.ok(existsSync(resolve(docs, "case-studies", fileName)), `indexed case file ${fileName} should exist`);
 });
+
+const projectArchive = read("projects/index.html");
+assert.match(projectArchive, /<title>Portfolio Projects/, "English project archive should expose a search-focused title");
+assert.match(projectArchive, /@type":"CollectionPage"/, "English project archive should describe itself as a CollectionPage");
+assert.match(projectArchive, /@type":"ItemList"/, "English project archive should expose an ItemList");
+assert.match(projectArchive, /numberOfItems":14/, "English project archive should enumerate fourteen projects");
+const arabicProjectArchive = read("ar/projects/index.html");
+assert.match(arabicProjectArchive, /<html lang="ar" dir="rtl">/, "Arabic project archive should preserve RTL direction");
+assert.match(arabicProjectArchive, /@type":"CollectionPage"/, "Arabic project archive should expose CollectionPage data");
+assert.match(arabicProjectArchive, /numberOfItems":14/, "Arabic project archive should enumerate fourteen projects");
+const archiveCaseFiles = [...projectArchive.matchAll(caseLinkPattern), ...arabicProjectArchive.matchAll(caseLinkPattern)].map((match) => match[1]);
+assert.equal(archiveCaseFiles.length, 28, "the two project archive pages should expose every evidence file");
+archiveCaseFiles.forEach((fileName) => {
+  assert.ok(existsSync(resolve(docs, "case-studies", fileName)), `project archive case file ${fileName} should exist`);
+});
+const sitemap = read("sitemap.xml");
+assert.match(sitemap, /majid-alsakani-portfolio\/projects\//, "sitemap should include the English projects archive");
+assert.match(sitemap, /majid-alsakani-portfolio\/ar\/projects\//, "sitemap should include the Arabic projects archive");
+const projectStyles = read("assets/css/project-index.css");
+assert.match(projectStyles, /scroll-margin-block-start/, "project anchor should account for the sticky mobile header");
+assert.match(projectStyles, /project-directory-and-updates/, "styles should place latest updates beside the project directory");
 
 const nowPage = read("now.html");
 assert.match(nowPage, /data-now-source/, "Now page should receive a dynamic source");

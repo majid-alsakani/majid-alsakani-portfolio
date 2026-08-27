@@ -43,6 +43,29 @@
     });
   }
 
+  var projectIndex = document.getElementById("projects");
+  if (projectIndex) {
+    var isArabic = root.lang === "ar";
+    var updates = document.createElement("aside");
+    updates.className = "project-updates";
+    updates.setAttribute("data-reveal", "");
+    updates.setAttribute("aria-label", isArabic ? "آخر التحديثات المرتبطة بالمشاريع" : "Latest project updates");
+    updates.innerHTML = isArabic
+      ? '<p class="project-updates-kicker">من سجل البناء</p><h3>آخر<br/><em>التحديثات.</em></h3><p class="project-updates-intro">مقالات حديثة عن الأنظمة والمنتجات التي تقف خلف ملفات الدليل.</p><div class="project-update-list"><a href="/majid-alsakani-portfolio/articles/planner-executor-critic-ai-architecture.html"><span>أنظمة AI · 25 أغسطس 2026</span><strong>Planner–Executor–Critic: معمارية عملية لأنظمة الذكاء الاصطناعي الموثوقة</strong><i aria-hidden="true">↗</i></a><a href="/majid-alsakani-portfolio/articles/developer-roadmap-arabic.html"><span>بناء تحت القيود · 30 مايو 2026</span><strong>تصميم خارطة طريق ثنائية اللغة للمطورين</strong><i aria-hidden="true">↗</i></a><a href="/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html"><span>هندسة الإنتاج · 22 أبريل 2026</span><strong>مكدس الإنتاج لدي: FastAPI وDjango وReact</strong><i aria-hidden="true">↗</i></a></div><a class="project-updates-all" href="/majid-alsakani-portfolio/ar/blog.html">كل المقالات <span aria-hidden="true">↗</span></a><a class="project-updates-archive" href="/majid-alsakani-portfolio/ar/projects/">دليل المشاريع القابل للفهرسة <span aria-hidden="true">↗</span></a>'
+      : '<p class="project-updates-kicker">From the build log</p><h3>Latest<br/><em>updates.</em></h3><p class="project-updates-intro">Recent writing on the systems and products behind the evidence files.</p><div class="project-update-list"><a href="/majid-alsakani-portfolio/articles/planner-executor-critic-ai-architecture.html"><span>AI systems · 25 Aug 2026</span><strong>Planner–Executor–Critic: A practical architecture for reliable AI systems</strong><i aria-hidden="true">↗</i></a><a href="/majid-alsakani-portfolio/articles/developer-roadmap-arabic.html"><span>Building under constraints · 30 May 2026</span><strong>Designing a bilingual developer roadmap</strong><i aria-hidden="true">↗</i></a><a href="/majid-alsakani-portfolio/articles/fastapi-django-react-production-stack.html"><span>Production engineering · 22 Apr 2026</span><strong>My production stack: FastAPI, Django and React</strong><i aria-hidden="true">↗</i></a></div><a class="project-updates-all" href="/majid-alsakani-portfolio/blog.html">Read all writing <span aria-hidden="true">↗</span></a><a class="project-updates-archive" href="/majid-alsakani-portfolio/projects/">Searchable project archive <span aria-hidden="true">↗</span></a>';
+
+    var directory = projectIndex.querySelector(".project-directory");
+    if (directory && directory.parentNode) {
+      var layout = document.createElement("div");
+      layout.className = "project-directory-and-updates";
+      directory.parentNode.insertBefore(layout, directory);
+      layout.appendChild(directory);
+      layout.appendChild(updates);
+    } else {
+      projectIndex.appendChild(updates);
+    }
+  }
+
   var revealItems = document.querySelectorAll("[data-reveal]");
   if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     var observer = new IntersectionObserver(function (entries) {
@@ -95,6 +118,24 @@
   var frameLabel = document.querySelector("[data-scene-frame]");
   var activeScene = -1;
   var ticking = false;
+  var projectAnchorTimer = 0;
+
+  function settleProjectAnchor() {
+    if (window.location.hash !== "#projects") return;
+    var target = document.getElementById("projects");
+    if (!target) return;
+    target.querySelectorAll("[data-reveal]").forEach(function (item) { item.classList.add("in"); });
+    root.classList.add("is-settling-project-anchor");
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        var headerOffset = header ? header.getBoundingClientRect().height : 0;
+        var targetTop = target.getBoundingClientRect().top + window.scrollY - headerOffset - 8;
+        window.scrollTo({ top: Math.max(0, targetTop), behavior: "auto" });
+        window.clearTimeout(projectAnchorTimer);
+        projectAnchorTimer = window.setTimeout(function () { root.classList.remove("is-settling-project-anchor"); }, 140);
+      });
+    });
+  }
 
   function setScene(index) {
     if (index === activeScene) return;
@@ -128,4 +169,8 @@
     if (!ticking) { ticking = true; window.requestAnimationFrame(updateCinematicScroll); }
   }, { passive: true });
   window.addEventListener("resize", updateCinematicScroll);
+  window.addEventListener("hashchange", settleProjectAnchor);
+  settleProjectAnchor();
+  window.addEventListener("load", function () { window.setTimeout(settleProjectAnchor, 120); }, { once: true });
+  window.setTimeout(settleProjectAnchor, 700);
 })();

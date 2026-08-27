@@ -13,9 +13,16 @@ const requiredFiles = [
   "assets/motion/joobea-signal-motion.mp4",
   "assets/motion/sini-progress-motion.mp4",
   "assets/motion/omni-orchestration-motion.mp4",
+  "assets/motion/signal-noir-home-reel.mp4",
+  "assets/audio/signal-noir-transition.mp3",
+  "assets/js/now-signal.js",
+  "assets/data/now-status.json",
+  "assets/data/now-status-ar.json",
   "case-studies/index.html",
   "ar/case-studies/index.html",
   "contact.html",
+  "now.html",
+  "ar/now.html",
 ];
 requiredFiles.forEach((relativePath) => assert.ok(existsSync(resolve(docs, relativePath)), `${relativePath} should exist`));
 
@@ -27,6 +34,8 @@ const archive = read("case-studies/index.html");
 ["joobea.html", "sini-alkhafif.html", "omni-agent-ai.html", "signalroom.html"].forEach((fileName) => {
   assert.match(archive, new RegExp(`href="${fileName}"`), `${fileName} should remain linked from the archive`);
 });
+assert.match(archive, /ef-primary-reel/, "archive should include the three-project cinematic reel");
+assert.match(archive, /joobea-signal-motion\.mp4/, "archive reel should use the real Joobea motion study");
 
 const arabicArchive = read("ar/case-studies/index.html");
 assert.match(arabicArchive, /<html dir="rtl" lang="ar">/, "Arabic archive should preserve RTL direction");
@@ -53,5 +62,19 @@ motionFiles.forEach(([casePath, videoName]) => {
   assert.match(caseStudy, /autoplay controls loop muted playsinline/, `${casePath} should expose a silent looping video with controls`);
   assert.match(caseStudy, /poster="\/majid-alsakani-portfolio\//, `${casePath} should provide a poster fallback`);
 });
+
+const home = read("index.html");
+assert.match(home, /signal-noir-home-reel\.mp4/, "home hero should include the combined project reel");
+assert.match(home, /data-signal-audio/, "home hero should expose optional audio control");
+assert.match(home, /data-signal-transition/, "home should register the optional transition audio");
+const homeInteractions = read("assets/js/cinema-home.js");
+assert.match(homeInteractions, /soundToggle/, "home script should handle optional sound control");
+assert.match(homeInteractions, /transitionSound\.volume = 0\.18/, "transition sound should remain low-level by default");
+
+const nowPage = read("now.html");
+assert.match(nowPage, /data-now-source/, "Now page should receive a dynamic source");
+assert.match(nowPage, /data-now-grid/, "Now page should render current project cards dynamically");
+const nowScript = read("assets/js/now-signal.js");
+assert.match(nowScript, /fetch\(source\)/, "Now page should load its editable work-status data");
 
 console.log("Evidence Files integrity checks passed.");

@@ -53,6 +53,38 @@
     revealItems.forEach(function (item) { observer.observe(item); });
   } else { revealItems.forEach(function (item) { item.classList.add("in"); }); }
 
+  var soundToggle = document.querySelector("[data-signal-audio]");
+  var transitionSound = document.querySelector("[data-signal-transition]");
+  if (soundToggle && transitionSound) {
+    transitionSound.volume = 0.18;
+    var soundOnText = root.lang === "ar" ? "الصوت يعمل" : "Sound on";
+    var soundOffText = root.lang === "ar" ? "الصوت متوقف" : "Sound off";
+    soundToggle.addEventListener("click", function () {
+      if (transitionSound.paused) {
+        transitionSound.currentTime = 0;
+        transitionSound.play().then(function () {
+          soundToggle.classList.add("is-active");
+          soundToggle.setAttribute("aria-pressed", "true");
+          var label = soundToggle.querySelector("span");
+          if (label) label.textContent = soundOnText;
+        }).catch(function () {});
+      } else {
+        transitionSound.pause();
+        transitionSound.currentTime = 0;
+        soundToggle.classList.remove("is-active");
+        soundToggle.setAttribute("aria-pressed", "false");
+        var inactiveLabel = soundToggle.querySelector("span");
+        if (inactiveLabel) inactiveLabel.textContent = soundOffText;
+      }
+    });
+    transitionSound.addEventListener("ended", function () {
+      soundToggle.classList.remove("is-active");
+      soundToggle.setAttribute("aria-pressed", "false");
+      var label = soundToggle.querySelector("span");
+      if (label) label.textContent = soundOffText;
+    });
+  }
+
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var hero = document.querySelector(".cinematic-hero");
   var heroVisual = document.querySelector(".hero-portrait-wrap");

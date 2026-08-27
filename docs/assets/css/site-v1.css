@@ -1,5 +1,6 @@
 /* Shared site layer: imports the cinematic Evidence Files treatment only for its scoped archive, case and contact selectors. */
 @import url("evidence-files.css");
+@import url("signal-upgrade.css");
 @charset "UTF-8";
 :root {
   --ink: #070b16;

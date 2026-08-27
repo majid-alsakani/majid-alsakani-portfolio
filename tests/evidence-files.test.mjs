@@ -37,5 +37,6 @@ assert.match(contact, /https:\/\/formsubmit\.co\/majidalsakani@gmail\.com/, "Con
 const interactions = read("assets/js/evidence-files.js");
 assert.match(interactions, /function showStep/, "Contact flow script should provide staged navigation");
 assert.match(interactions, /project_type/, "Contact flow script should capture the selected project type");
+assert.match(interactions, /form\.checkValidity\(\)/, "Contact flow should validate required fields before submission");
 
 console.log("Evidence Files integrity checks passed.");

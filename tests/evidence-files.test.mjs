@@ -25,6 +25,18 @@ const requiredFiles = [
   "ar/now.html",
   "projects/index.html",
   "ar/projects/index.html",
+  "assets/css/tools-hub.css",
+  "assets/js/tools-runtime.js",
+  "tools/index.html",
+  "ar/tools/index.html",
+  "tools/json-formatter/index.html",
+  "ar/tools/json-formatter/index.html",
+  "tools/jwt-decoder/index.html",
+  "ar/tools/jwt-decoder/index.html",
+  "tools/timestamp-converter/index.html",
+  "ar/tools/timestamp-converter/index.html",
+  "tools/utm-builder/index.html",
+  "ar/tools/utm-builder/index.html",
 ];
 requiredFiles.forEach((relativePath) => assert.ok(existsSync(resolve(docs, relativePath)), `${relativePath} should exist`));
 
@@ -75,6 +87,8 @@ assert.match(homeInteractions, /transitionSound\.volume = 0\.18/, "transition so
 assert.match(homeInteractions, /project-updates/, "home should insert a project-adjacent updates section");
 assert.match(homeInteractions, /settleProjectAnchor/, "home should settle the projects anchor after a direct visit");
 assert.match(homeInteractions, /is-settling-project-anchor/, "deep-linked project anchor should bypass smooth scrolling until it settles");
+assert.match(homeInteractions, /tools-shortcut/, "home should expose a visible shortcut to the tools hub");
+assert.match(homeInteractions, /data-tools-nav/, "home navigation should expose a direct tools route");
 
 assert.match(home, /id="projects"/, "home should provide a permanent projects index");
 assert.match(home, /Explore all projects/, "home hero should guide visitors to all projects");
@@ -118,6 +132,25 @@ assert.match(sitemap, /majid-alsakani-portfolio\/ar\/projects\//, "sitemap shoul
 const projectStyles = read("assets/css/project-index.css");
 assert.match(projectStyles, /scroll-margin-block-start/, "project anchor should account for the sticky mobile header");
 assert.match(projectStyles, /project-directory-and-updates/, "styles should place latest updates beside the project directory");
+
+const toolsHub = read("tools/index.html");
+assert.match(toolsHub, /@type":"CollectionPage"/, "tools hub should expose CollectionPage data");
+assert.match(toolsHub, /numberOfItems":4/, "tools hub should enumerate the four launch tools");
+const arabicToolsHub = read("ar/tools/index.html");
+assert.match(arabicToolsHub, /<html lang="ar" dir="rtl">/, "Arabic tools hub should preserve RTL direction");
+const toolPages = ["json-formatter", "jwt-decoder", "timestamp-converter", "utm-builder"];
+toolPages.forEach((tool) => {
+  const englishTool = read(`tools/${tool}/index.html`);
+  const arabicTool = read(`ar/tools/${tool}/index.html`);
+  assert.match(englishTool, /@type":"SoftwareApplication"/, `${tool} should include SoftwareApplication data`);
+  assert.match(englishTool, /rel="canonical"/, `${tool} should include a canonical URL`);
+  assert.match(arabicTool, /inLanguage":"ar"/, `Arabic ${tool} should use Arabic structured data`);
+  assert.match(sitemap, new RegExp(`/tools/${tool}/`), `${tool} should be included in the sitemap`);
+  assert.match(sitemap, new RegExp(`/ar/tools/${tool}/`), `Arabic ${tool} should be included in the sitemap`);
+});
+const toolsRuntime = read("assets/js/tools-runtime.js");
+["processJson", "decodeJwt", "convertTimestamp", "buildUtm"].forEach((functionName) => assert.match(toolsRuntime, new RegExp(`function ${functionName}`), `${functionName} should be implemented client-side`));
+assert.doesNotMatch(toolsRuntime, /fetch\(/, "tools should not submit visitor inputs to a remote endpoint");
 
 const nowPage = read("now.html");
 assert.match(nowPage, /data-now-source/, "Now page should receive a dynamic source");

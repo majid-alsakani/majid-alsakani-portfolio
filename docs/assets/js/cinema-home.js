@@ -45,7 +45,21 @@
 
   var projectIndex = document.getElementById("projects");
   if (projectIndex) {
+    if (!document.querySelector('link[href$="/assets/css/tools-hub.css"]')) {
+      var toolsStylesheet = document.createElement("link");
+      toolsStylesheet.rel = "stylesheet";
+      toolsStylesheet.href = "/majid-alsakani-portfolio/assets/css/tools-hub.css";
+      document.head.appendChild(toolsStylesheet);
+    }
     var isArabic = root.lang === "ar";
+    if (nav && !nav.querySelector("[data-tools-nav]")) {
+      var toolsNavLink = document.createElement("a");
+      toolsNavLink.dataset.toolsNav = "";
+      toolsNavLink.href = isArabic ? "/majid-alsakani-portfolio/ar/tools/" : "/majid-alsakani-portfolio/tools/";
+      toolsNavLink.textContent = isArabic ? "الأدوات" : "Tools";
+      var navInsertionPoint = nav.querySelector('a[href$="now.html"]');
+      nav.insertBefore(toolsNavLink, navInsertionPoint || null);
+    }
     var updates = document.createElement("aside");
     updates.className = "project-updates";
     updates.setAttribute("data-reveal", "");
@@ -64,6 +78,16 @@
     } else {
       projectIndex.appendChild(updates);
     }
+
+    var toolsShortcut = document.createElement("section");
+    toolsShortcut.className = "tools-shortcut";
+    toolsShortcut.id = "tools";
+    toolsShortcut.setAttribute("data-reveal", "");
+    toolsShortcut.setAttribute("aria-labelledby", "tools-shortcut-title");
+    toolsShortcut.innerHTML = isArabic
+      ? '<header class="tools-shortcut-head"><div><p class="cine-kicker">أدوات عملية / تعمل محلياً</p><h2 id="tools-shortcut-title">أنجز المهمة.<br/><em>ثم استكشف العمل.</em></h2></div><p>أدوات سريعة ومجانية للبيانات وواجهات API والنمو. لا حساب ولا إرسال للبيانات المدخلة.</p></header><div class="tools-shortcut-grid"><a href="/majid-alsakani-portfolio/ar/tools/json-formatter/"><span>01 / API</span><strong>منسق JSON</strong><small>نسّق البيانات وتحقق منها</small><i aria-hidden="true">↗</i></a><a href="/majid-alsakani-portfolio/ar/tools/jwt-decoder/"><span>02 / AUTH</span><strong>قارئ JWT</strong><small>اقرأ الحمولة محلياً</small><i aria-hidden="true">↗</i></a><a href="/majid-alsakani-portfolio/ar/tools/timestamp-converter/"><span>03 / TIME</span><strong>محول الطابع الزمني</strong><small>حوّل Unix وISO وUTC</small><i aria-hidden="true">↗</i></a><a href="/majid-alsakani-portfolio/ar/tools/utm-builder/"><span>04 / GROWTH</span><strong>منشئ روابط UTM</strong><small>ابنِ رابط الحملة بدقة</small><i aria-hidden="true">↗</i></a></div><a class="tools-shortcut-all" href="/majid-alsakani-portfolio/ar/tools/">افتح كل الأدوات <span aria-hidden="true">↗</span></a>'
+      : '<header class="tools-shortcut-head"><div><p class="cine-kicker">Useful tools / browser-local</p><h2 id="tools-shortcut-title">Finish the task.<br/><em>Then explore the work.</em></h2></div><p>Fast, free utilities for data, APIs and growth. No account and no submitted inputs.</p></header><div class="tools-shortcut-grid"><a href="/majid-alsakani-portfolio/tools/json-formatter/"><span>01 / API</span><strong>JSON Formatter</strong><small>Format and validate data</small><i aria-hidden="true">↗</i></a><a href="/majid-alsakani-portfolio/tools/jwt-decoder/"><span>02 / AUTH</span><strong>JWT Decoder</strong><small>Read a payload locally</small><i aria-hidden="true">↗</i></a><a href="/majid-alsakani-portfolio/tools/timestamp-converter/"><span>03 / TIME</span><strong>Timestamp Converter</strong><small>Convert Unix, ISO and UTC</small><i aria-hidden="true">↗</i></a><a href="/majid-alsakani-portfolio/tools/utm-builder/"><span>04 / GROWTH</span><strong>UTM Builder</strong><small>Build a precise campaign URL</small><i aria-hidden="true">↗</i></a></div><a class="tools-shortcut-all" href="/majid-alsakani-portfolio/tools/">Open all tools <span aria-hidden="true">↗</span></a>';
+    projectIndex.after(toolsShortcut);
   }
 
   var revealItems = document.querySelectorAll("[data-reveal]");

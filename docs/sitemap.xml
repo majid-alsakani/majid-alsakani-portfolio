@@ -12,6 +12,16 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/tools/</loc>
+    <lastmod>2026-08-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url><loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/tools/json-formatter/</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/tools/jwt-decoder/</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/tools/timestamp-converter/</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/tools/utm-builder/</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url>
     <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/blog.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -110,6 +120,16 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/ar/tools/</loc>
+    <lastmod>2026-08-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url><loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/ar/tools/json-formatter/</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/ar/tools/jwt-decoder/</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/ar/tools/timestamp-converter/</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/ar/tools/utm-builder/</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url>
     <loc>https://majid-alsakani.github.io/majid-alsakani-portfolio/ar/team.html</loc>
     <changefreq>monthly</changefreq>
